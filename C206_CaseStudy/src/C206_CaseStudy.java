@@ -215,13 +215,13 @@ public class C206_CaseStudy {
 			rate = C206_CaseStudy.searchRateByCurrency(currencyList,ccyOut);
 			amtOut = amtIn/rate; //customer sell amt in, amt in will divide by rate to 
 								//get amt converted out
-			C206_CaseStudy.updateMoneyHolding(ccyIn,ccyOut, amtIn, amtOut, type);//update the holding
+			C206_CaseStudy.updateMoneyHolding(ccyIn,ccyOut, amtIn, amtOut);//update the holding
 			
 		}
 		else if (type.equalsIgnoreCase("sell")){ //sell to customer
 			rate = C206_CaseStudy.searchRateByCurrency(currencyList,ccyIn);
 			amtOut = rate*amtIn; //customer buy using amount in * rate of 1 amt in
-			C206_CaseStudy.updateMoneyHolding(ccyIn,ccyOut, amtIn, amtOut, type); //update the holding
+			C206_CaseStudy.updateMoneyHolding(ccyIn,ccyOut, amtIn, amtOut); //update the holding
 		}
 		else {
 			System.out.println("Invalid transaction type!");
@@ -236,27 +236,15 @@ public class C206_CaseStudy {
 	}
 	
 	//Jiamei user story ID 5.1 - SPRINT 1 
-	public static void updateMoneyHolding(String isoIn,String isoOut, double amtIn, double amtOut, String s) {
+	public static void updateMoneyHolding(String isoIn,String isoOut, double amtIn, double amtOut) {
 		for(int i = 0 ; i< moneyHoldingList.size(); i++) {
-				if(s.equalsIgnoreCase("sell")) { 
-					if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoIn)) {
-						
+					if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoIn)) { //+amtIn as customer buy amtOut using amtIn
+						moneyHoldingList.get(i).setHoldingAmt(moneyHoldingList.get(i).getHoldingAmt()+amtIn); 
 					}
-					else if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoOut)) {
-						
+					else if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoOut)) { //-amtOut as amtOut is bought
+						moneyHoldingList.get(i).setHoldingAmt(moneyHoldingList.get(i).getHoldingAmt()-amtOut);
 					}
-				}
-				else if(s.equalsIgnoreCase("buy")) {
-					if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoIn)) {
-						
-					}
-					else if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoOut)) {
-						
-					}
-					
-					//moneyHoldingList.get(i).setHoldingAmt(moneyHoldingList.get(i).getHoldingAmt()+amt);
-				}
-				else {
+					else {
 					System.out.println("Error in updating!");
 				}
 			}
