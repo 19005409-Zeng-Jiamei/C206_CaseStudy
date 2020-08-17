@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class C206_CaseStudy {
@@ -12,11 +13,12 @@ public class C206_CaseStudy {
 	private static final int OPTION_HOLDING = 2;
 	private static final int OPTION_TRANSACTION = 3;
 	
+	private static ArrayList<Currency> currencyList = new ArrayList<Currency>();
+	private static ArrayList<MoneyHolding> moneyHoldingList = new ArrayList<MoneyHolding>();
+	private static ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
 	
 	public static void main(String[] args) {
-		ArrayList<Currency> currencyList = new ArrayList<Currency>();
-		ArrayList<MoneyHolding> moneyHoldingList = new ArrayList<MoneyHolding>();
-		ArrayList<Transaction> transactionList = new ArrayList<Transaction>();
+		
 		
 		int option = 0;
 		while(option!=OPTION_QUIT) {
@@ -191,8 +193,8 @@ public class C206_CaseStudy {
 	}
 	
 	//NA
-	public static void searchRateByCurrency(ArrayList<Currency>currencyList, String c) {
-		
+	public static double searchRateByCurrency(ArrayList<Currency>currencyList, String c) {
+		return 0.0;
 	}
 	
 	//NA
@@ -202,12 +204,62 @@ public class C206_CaseStudy {
 	
 	//Jiamei user story ID 5.1 - SPRINT 1 
 	public static Transaction inputTransaction() {
-		return null;
+		LocalDateTime txnDate = LocalDateTime.now();
+		String type = Helper.readString("Type of transaction (BUY/SELL) > ");
+		String ccyIn = Helper.readString("Enter ISO of currency received > ");
+		double amtIn = Helper.readDouble("Enter amount received >");
+		String ccyOut = Helper.readString("Enter ISO of currency given to customer > ");
+		double rate = 0.0;
+		double amtOut = 0.0; 
+		if(type.equalsIgnoreCase("buy")) { //buy from customer
+			rate = C206_CaseStudy.searchRateByCurrency(currencyList,ccyOut);
+			amtOut = amtIn/rate; //customer sell amt in, amt in will divide by rate to 
+								//get amt converted out
+			C206_CaseStudy.updateMoneyHolding(ccyIn,ccyOut, amtIn, amtOut, type);//update the holding
+			
+		}
+		else if (type.equalsIgnoreCase("sell")){ //sell to customer
+			rate = C206_CaseStudy.searchRateByCurrency(currencyList,ccyIn);
+			amtOut = rate*amtIn; //customer buy using amount in * rate of 1 amt in
+			C206_CaseStudy.updateMoneyHolding(ccyIn,ccyOut, amtIn, amtOut, type); //update the holding
+		}
+		else {
+			System.out.println("Invalid transaction type!");
+			type = Helper.readString("Type of transaction (BUY/SELL) > ");
+		}
+		return new Transaction(txnDate,type,ccyIn,amtIn,ccyOut,amtOut,rate);
 	}
 	
 	//Jiamei user story ID 5.1 - SPRINT 1 
 	public static void addTransaction(ArrayList<Transaction>transactionList, Transaction a) {
-		
+		transactionList.add(a);
+	}
+	
+	//Jiamei user story ID 5.1 - SPRINT 1 
+	public static void updateMoneyHolding(String isoIn,String isoOut, double amtIn, double amtOut, String s) {
+		for(int i = 0 ; i< moneyHoldingList.size(); i++) {
+				if(s.equalsIgnoreCase("sell")) { 
+					if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoIn)) {
+						
+					}
+					else if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoOut)) {
+						
+					}
+				}
+				else if(s.equalsIgnoreCase("buy")) {
+					if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoIn)) {
+						
+					}
+					else if(moneyHoldingList.get(i).getIso().equalsIgnoreCase(isoOut)) {
+						
+					}
+					
+					//moneyHoldingList.get(i).setHoldingAmt(moneyHoldingList.get(i).getHoldingAmt()+amt);
+				}
+				else {
+					System.out.println("Error in updating!");
+				}
+			}
 	}
 	
 	//Jiamei user story ID 5.2 

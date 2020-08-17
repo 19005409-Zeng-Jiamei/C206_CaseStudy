@@ -23,6 +23,10 @@ public class MoneyHolding {
 	public double getHoldingAmt() {
 		return holdingAmt;
 	}
+
+	public void setHoldingAmt(double holdingAmt) {
+		this.holdingAmt = holdingAmt;
+	}
 	
 	
 }

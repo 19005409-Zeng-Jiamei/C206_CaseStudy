@@ -97,6 +97,11 @@ public class C206_CaseStudyTest {
 		
 	}
 	
+	//Jiamei user story ID 5.1 - SPRINT 1 
+	public void updateMoneyHoldingTest(String isoIn,String isoOut, double amtIn,double amtOut, String s) {
+		
+	}
+	
 	//Jiamei user story ID 5.2 
 	public String retrieveAllTransactionTest(ArrayList<Transaction>transactionList) {
 		return null;
